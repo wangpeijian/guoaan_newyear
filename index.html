@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>元旦快乐</title>
+    <meta name=description content="">
+    <meta name=keywords content="">
+
+    <!--<script src="//wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.0.0.0"></script>-->
+    <script>
+        (function(doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function() {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    docEl.style.fontSize = 625 * (clientWidth / 750) + '%';
+                };
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+
+</head>
+
+<body>
+    <div id="app-box"></div>
+</body>
+
+</html>
+<script>
+    // var vConsole = new VConsole();
+</script>

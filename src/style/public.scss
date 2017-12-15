@@ -1,0 +1,198 @@
+@charset "UTF-8";
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    /*解决iphone点击页面出现黑影的问题*/
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+    /*解决页面滚动不流畅问题 -- 只在需要滚动的区域添加*/
+    /*-webkit-overflow-scrolling : touch;*/
+    /*解决chrome浏览器上font-size最小12px的问题*/
+    -webkit-text-size-adjust: none;
+    /*设置文字抗锯齿，使页面文字更清晰*/
+    -webkit-font-smoothing: antialiased;
+    /*禁止选择页面上的文字*/
+    -webkit-user-select: none;
+    /*防止iphone无法点击*/
+    cursor: pointer;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input {
+    box-sizing: border-box;
+    -webkit-appearance: none;
+}
+
+input，textarea {
+    outline: none;
+}
+
+a,
+abbr,
+acronym,
+address,
+applet,
+article,
+aside,
+audio,
+b,
+big,
+blockquote,
+body,
+canvas,
+caption,
+center,
+cite,
+code,
+dd,
+del,
+details,
+dfn,
+div,
+dl,
+dt,
+em,
+embed,
+fieldset,
+figcaption,
+figure,
+footer,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+header,
+html,
+i,
+iframe,
+img,
+ins,
+kbd,
+label,
+legend,
+li,
+mark,
+menu,
+nav,
+object,
+ol,
+output,
+p,
+pre,
+q,
+ruby,
+s,
+samp,
+section,
+small,
+span,
+strike,
+strong,
+sub,
+summary,
+sup,
+table,
+tbody,
+td,
+tfoot,
+th,
+thead,
+time,
+tr,
+tt,
+u,
+ul,
+var,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    word-wrap: break-word
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0
+}
+
+button,
+input,
+select,
+textarea {
+    outline: 0;
+    -webkit-box-sizing: border-box
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+menu,
+nav,
+section {
+    display: block
+}
+
+li,
+ol,
+ul {
+    list-style: none
+}
+
+img {
+    max-width: 100%;
+    vertical-align: middle;
+    border: 0;
+    -ms-interpolation-mode: bicubic;
+    -webkit-touch-callout: none;
+    display: block;
+}
+
+:focus {
+    outline: 0
+}
+
+
+
+a {
+    color: #000;
+    text-decoration: none;
+    -webkit-touch-callout: none;
+}
+
+a.active {
+    color: #000
+}
+
+#app{
+    height: 100%;
+}
+
+html{
+    background: #cead84;
+}
