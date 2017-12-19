@@ -29,7 +29,7 @@
             }
 
             if (source === -1) {
-                window.location.href = "http://act.guoanfamily.com/openweixin/user/getCode?redirect_url=" + window.location.href;
+                window.location.href = `http://act.guoanfamily.com/openweixin/user/getCode?redirect_url=${window.location.href}&scope=snsapi_base`;
             }
 
             let userInfo = Object.assign(this.getStorage("userInfo"), {
@@ -56,7 +56,7 @@
                         window.location.href = "http://act.guoanfamily.com/staticWeb/newyear/"
                     } else {
                         //跳转到微信授权链接
-                        window.location.href = "http://act.guoanfamily.com/openweixin/user/getCode?redirect_url=" + window.location.href;
+                        window.location.href = `http://act.guoanfamily.com/openweixin/user/getCode?redirect_url=${window.location.href}&scope=snsapi_base`;
                     }
                 }
             } else if (source === 1) {
@@ -83,6 +83,9 @@
         },
 
         mounted() {
+            if(location.href.includes("&isappinstalled")){
+                window.location.href = "http://act.guoanfamily.com/staticWeb/newyear/"
+            }
             this.$router.replace("/")
         },
 

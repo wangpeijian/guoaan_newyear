@@ -346,7 +346,7 @@
             wxConfig() {
                 const URL = window.location.href; //.split('#')[0]
 
-                this.post("jsapi/getJsapiSignature?local_url=" + URL,//encodeURIComponent(URL),
+                this.post("jsapi/getJsapiSignature?local_url=" + URL,//encodeURIComponent(location.href.split('#')[0]), //URL, // encodeURIComponent(URL),
                     {}, {
                         interfaceType: "weichat"
                     }).then(response => {
@@ -368,7 +368,7 @@
                         wx.onMenuShareAppMessage({
                             title: "迎元旦 贴窗花", //标题
                             desc: "新年伊始是元旦，万象更新又一年，国安科技控股真诚答谢活动，欢迎您的参与。", //描述
-                            link: URL,
+                            link: "http://act.guoanfamily.com/staticWeb/newyear/#/",
                             imgUrl: "https://img.guoanfamily.com/www/newyearShare.jpg", //图片
                             trigger: (res) => {
                             },
@@ -384,7 +384,7 @@
                         wx.onMenuShareTimeline({
                             title: "迎元旦 贴窗花", //标题
                             desc: "新年伊始是元旦，万象更新又一年，国安科技控股真诚答谢活动，欢迎您的参与。", //描述
-                            link: URL,
+                            link: "http://act.guoanfamily.com/staticWeb/newyear/#/",
                             imgUrl: "https://img.guoanfamily.com/www/newyearShare.jpg", //图片
                             trigger: (res) => {
                             },
