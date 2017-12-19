@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="e30523bc-038a-46aa-8aa2-c5642ac093e4" name="正式环境" url="http://112.126.88.206">
+        <fileTransfer host="112.126.88.206" port="22" rootFolder="/usr/local/tomcat/webapps/staticWeb/newyear" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

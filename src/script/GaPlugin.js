@@ -28,6 +28,11 @@ export default class {
     /*------------------安装扩展方法------------------*/
     installMixin(Vue) {
         Vue.mixin({
+
+            created(){
+
+            },
+
             mounted() {
                 //让页面加载好后滚动到顶部
                 window.scrollTo(0, 0);
@@ -135,7 +140,7 @@ export default class {
         Vue.prototype.getStorage = key => {
             let value = window.localStorage.getItem(key);
             if (value === "") {
-                return null;
+                return {};
             }
             try {
                 value = JSON.parse(value);
@@ -144,7 +149,7 @@ export default class {
                 return value;
             }
 
-            return value;
+            return value || {};
         };
 
         /**
@@ -181,6 +186,7 @@ export default class {
                 console.group(`请求接口：${url}`);
                 console.log("响应结果：", JSON.parse(JSON.stringify(res)));
                 console.groupEnd();
+                return res;
             }).catch(function(e) {
                 console.error(e);
             })
@@ -193,20 +199,36 @@ export default class {
          * @param opinion
          * @returns {Promise.<TResult>}
          */
-        Vue.prototype.post = function(url, data = {}) {
-            return fetch(config.INTERFACE + url, {
+        Vue.prototype.post = function(url, data = {}, opinion = {
+            interfaceType: ""
+        }) {
+            let requestUrl = config.INTERFACE;
+
+            switch (opinion.interfaceType) {
+                case "weichat":
+                    requestUrl = config.WECHAT + url;
+                    break;
+                default:
+                    break;
+            }
+
+            console.group(`请求接口：${url}`);
+            console.log("求情参数：", data);
+
+            return fetch(requestUrl + url, {
                 method: 'post',
                 headers: { "Content-Type": "application/json"},
                 body: new Blob([JSON.stringify(data)], { type: 'application/json' }),
             }).then(function(response) {
                 return response.json();
             }).then((res) => {
-                console.group(`请求接口：${url}`);
-                console.log("求情参数：", data);
+
                 console.log("响应结果：", JSON.parse(JSON.stringify(res)));
                 console.groupEnd();
+                return res;
             }).catch(function(e) {
                 console.error(e);
+                console.groupEnd();
             })
         };
 

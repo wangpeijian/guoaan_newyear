@@ -9,14 +9,15 @@ const isDev = () => {
 
 let def = {
     IMAGE_PATH: "https://img.guoanfamily.com/",
+    WECHAT: "//www.guoanfamily.com/openweixin/",
 };
 
 let dev = {
-    INTERFACE: "http://172.16.4.12:8084/agenthouseCutomer/",
+    INTERFACE: "http://172.16.43.24:8021/newyear/",
 };
 
 let prod = {
-    INTERFACE: "https://www.guoanfamily.com/agenthouseCutomer/",
+    INTERFACE: "https://www.guoanfamily.com/newyear/",
 };
 
 let config = isDev() ? dev : prod;

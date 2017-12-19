@@ -9,7 +9,7 @@ module.exports = {
         assetsSubDirectory: './static',
         //TODO 上线修改资源路径
         //assetsPublicPath: './',
-        assetsPublicPath: process.env.IS_PUBLISH ? 'https://m.zufang.guoanfamily.com/' : './',
+        assetsPublicPath: process.env.IS_PUBLISH ? 'http://act.guoanfamily.com/staticWeb/newyear/' : './',
         productionSourceMap: false,
         // Gzip off by default as many popular static hosts such as
         // Surge or Netlify already gzip all static assets for you.

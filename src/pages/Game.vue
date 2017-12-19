@@ -1,4 +1,5 @@
 <style scoped lang="scss">
+    $gold: #DAA520 ;
 
     .game-body {
         transform: translate3d(0, 0, 0);
@@ -41,13 +42,27 @@
                 width: 2rem;
                 height: 2rem;
                 opacity: 0.5;
+
+                &.success{
+                    animation: twinkle .2s 3;
+
+                    @keyframes twinkle
+                    {
+                        from {
+                            opacity: 1;
+                        }
+                        to {
+                            opacity: 0;
+                        }
+                    }
+                }
             }
 
             .combo-tip{
                 position: absolute;
-                bottom: 0;
+                bottom: 0rem;
                 z-index: 1;
-                font-size: .5rem;
+                font-size: .8rem;
                 color: rgba(245, 152, 34, 0);
                 animation: comboFade 3s 1;
                 width: 100%;
@@ -56,8 +71,8 @@
                 @keyframes comboFade
                 {
                     from {
-                        bottom: -1rem;
-                        color: #f59822;
+                        bottom: 0rem;
+                        color: $gold;
                     }
                     to {
                         bottom: 1rem;
@@ -71,7 +86,7 @@
                 text-align: center;
                 width: 2rem;
                 z-index: 1;
-                font-size: .5rem;
+                font-size: .8rem;
                 color: rgba(245, 152, 34, 0);
                 animation: comboFade 2s 1;
 
@@ -79,7 +94,7 @@
                 {
                     from {
                         transform: translateY(0rem);
-                        color: #f59822;
+                        color: $gold;
                     }
                     to {
                         transform: translateY(-1rem);
@@ -97,11 +112,35 @@
             left: 0;
             z-index: 9;
 
-            &.fall-image {
+            &.speed-0 {
                 top: -3rem;
                 margin: 0 0 0 50%;
                 left: -1.5rem;
-                transition: 4s;
+                transition: 3s;
+                transition-timing-function: linear;
+
+                &.fall {
+                    transform: translateY(20rem);
+                }
+            }
+
+            &.speed-1 {
+                top: -3rem;
+                margin: 0 0 0 50%;
+                left: -1.5rem;
+                transition: 2s;
+                transition-timing-function: linear;
+
+                &.fall {
+                    transform: translateY(20rem);
+                }
+            }
+
+            &.speed-2 {
+                top: -3rem;
+                margin: 0 0 0 50%;
+                left: -1.5rem;
+                transition: .5s;
                 transition-timing-function: linear;
 
                 &.fall {
@@ -129,10 +168,12 @@
 
             <!--目标窗花-->
             <img class="fix-image" v-for="(item, index) in fixImages"
+                 :class="{success: item.success}"
                  :key="index"
                  :src="item.src"
                  :style="{top: `${item.y}rem`, left: `${item.x}rem`}"
                  :ref="`target_00${index + 1}`"
+                 @animationend="removeTargetSuccess(index)"
             >
 
             <!--窗花正确的提示-->
@@ -153,10 +194,10 @@
         </div>
 
         <!--掉落的窗花-->
-        <img class="base-image " v-for="(item, index) in getFallList"
+        <img class="base-image" v-for="(item, index) in getFallList"
              :key="item.uuid"
              :src="item.src"
-             :class="{fall: item.fall, 'fall-image': !item.touch}"
+             :class="{fall: item.fall, 'speed-0': !item.touch, 'speed-1': !item.touch && this.speedLevel === 1, 'speed-2':!item.touch &&  this.speedLevel === 2}"
              :style="{transform: `translate(${item._x}px, ${item._y}px)`}"
 
              :ref="item.uuid"
@@ -186,26 +227,32 @@
     const imageStore = [image001, image002, image003, image004, image005, image006];
 
     const fixImages = [{
+        success: false,
         src: image001,
         x: 1,
         y: 3.4,
     }, {
+        success: false,
         src: image002,
         x: 4.6,
         y: 3.4,
     }, {
+        success: false,
         src: image003,
         x: 1,
         y: 5.9,
     }, {
+        success: false,
         src: image004,
         x: 4.6,
         y: 5.9,
     }, {
+        success: false,
         src: image005,
         x: 1,
         y: 8.7,
     }, {
+        success: false,
         src: image006,
         x: 4.6,
         y: 8.7,
@@ -246,7 +293,10 @@
                 //成功选中后的提示
                 successTips: {
 
-                }
+                },
+
+                //加速等级
+                speedLevel: 0
             }
         },
 
@@ -255,8 +305,22 @@
         },
 
         mounted() {
-            this.gameTimer = setInterval(this.run, 1000);
-            this.run();
+            let ua = navigator.userAgent.toLowerCase()
+            if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                this.wxConfig();
+            }
+
+            //游戏页面先去后台校验可玩游戏次数
+            let userInfo = this.getStorage("userInfo");
+            this.post("checkGameTimes", userInfo).then(res => {
+                if (res.Code === 0) {
+                    alert("游戏开始");
+                    this.gameTimer = setInterval(this.run, 1000);
+                } else {
+                    alert(res.Msg)
+                    this.$router.go(-1);
+                }
+            });
 
             //获取全部目标的位置
             this.fixImages.map((item, index) => {
@@ -279,6 +343,83 @@
         },
 
         methods: {
+            wxConfig() {
+                const URL = window.location.href; //.split('#')[0]
+
+                this.post("jsapi/getJsapiSignature?local_url=" + URL,//encodeURIComponent(URL),
+                    {}, {
+                        interfaceType: "weichat"
+                    }).then(response => {
+                    wx.config({
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId: response.appid, // 必填，公众号的唯一标识
+                        timestamp: parseInt(response.timestamp), // 必填，生成签名的时间戳
+                        nonceStr: response.noncestr, // 必填，生成签名的随机串
+                        signature: response.signature, // 必填，签名，见附录1
+                        jsApiList: [
+                            'onMenuShareTimeline',
+                            'onMenuShareAppMessage',
+                            'onMenuShareQQ',
+                            'onMenuShareWeibo',
+                            'onMenuShareQZone']// 必填，需要使用的JS接口列表
+                    });
+                    wx.ready(() => {
+                        // 分享给朋友
+                        wx.onMenuShareAppMessage({
+                            title: "迎元旦 贴窗花", //标题
+                            desc: "新年伊始是元旦，万象更新又一年，国安科技控股真诚答谢活动，欢迎您的参与。", //描述
+                            link: URL,
+                            imgUrl: "https://img.guoanfamily.com/www/newyearShare.jpg", //图片
+                            trigger: (res) => {
+                            },
+                            success: (res) => {
+                                this.addGameTimes("ShareAppMessage")
+                            },
+                            cancel: (res) => {
+                            },
+                            fail: (res) => {
+                            }
+                        });
+                        // 分享到朋友圈
+                        wx.onMenuShareTimeline({
+                            title: "迎元旦 贴窗花", //标题
+                            desc: "新年伊始是元旦，万象更新又一年，国安科技控股真诚答谢活动，欢迎您的参与。", //描述
+                            link: URL,
+                            imgUrl: "https://img.guoanfamily.com/www/newyearShare.jpg", //图片
+                            trigger: (res) => {
+                            },
+                            success: (res) => {
+                                this.addGameTimes("ShareTimeline")
+                            },
+                            cancel: (res) => {
+                            },
+                            fail: (res) => {
+                            }
+                        });
+
+                        wx.error(function (res) {
+                            console.error(res)
+                        });
+                    })
+                });
+            },
+
+            addGameTimes(type){
+                let userInfo = Object.assign(this.getStorage("userInfo"), {
+                    share_type: type,
+                });
+
+                if(!userInfo.wx_id){
+                    return;
+                }
+
+                this.post("addGameTimes", userInfo).then(res => {
+                    if(res.Code === 0){
+                        alert("分享成功")
+                    }
+                });
+            },
+
             //阻止背景移动
             topMove(e) {},
 
@@ -302,63 +443,95 @@
                 let _x = e.touches[0].pageX;
                 let _y = e.touches[0].pageY;
                 let ele = this.$refs[uuid][0];
-                ele.setAttribute("style", `transform: translate(${_x - ele.clientWidth / 2}px, ${_y - ele.clientWidth / 2}px)`);
+                try{
+                    ele.setAttribute("style", `transform: translate(${_x - ele.clientWidth / 2}px, ${_y - ele.clientWidth / 2}px)`);
+                }catch (e){
+
+                }
             },
 
             touchEnd(e) {
-                let uuid = e.target.dataset.uuid;
-                let bullet = e.target.dataset.bullet;
-                //判断图标是否放在正确位置，在正确位置则加分
-                //根据bullet找到对应的target的坐标范围
-                let {tx, ty, bx, by} = this.target["target_" + bullet];
+                try {
+                    let uuid = e.target.dataset.uuid;
+                    let bullet = e.target.dataset.bullet;
+                    //判断图标是否放在正确位置，在正确位置则加分
+                    //根据bullet找到对应的target的坐标范围
+                    let {tx, ty, bx, by} = this.target["target_" + bullet];
 
-                let target = this.$refs[uuid][0];
-                let transform = target.style.transform;
-                let coordinate = transform.replace("translate(", "").replace(")", "").replace(/px/g, "").split(",");
+                    let target = this.$refs[uuid][0];
+                    let transform = target.style.transform;
+                    let coordinate = transform.replace("translate(", "").replace(")", "").replace(/px/g, "").split(",");
 
-                let _x = ~~coordinate[0] + e.target.clientWidth / 2;
-                let _y = ~~coordinate[1] + e.target.clientWidth / 2;
+                    let _x = ~~coordinate[0] + e.target.clientWidth / 2;
+                    let _y = ~~coordinate[1] + e.target.clientWidth / 2;
 
-                if( _x >= tx && _x<= bx && _y >= ty && _y <= by ){
-                    this.hit++;
-                    this.combo++;
-                    let tip_uuid = new Date().getTime();
+                    //位置正确
+                    if( _x >= tx && _x<= bx && _y >= ty && _y <= by ){
+                        this.hit++;
+                        this.combo++;
+                        let tip_uuid = new Date().getTime();
 
-                    //2连击开始展示
-                    if(this.combo > 1){
-                        this.$set(this.comboTips, tip_uuid, {
+                        this.fixImages[bullet - 1].success = true;
+
+                        //2连击开始展示
+                        if(this.combo > 1){
+                            this.$set(this.comboTips, tip_uuid, {
+                                uuid: tip_uuid,
+                                combo: this.combo,
+                            });
+                        }
+
+                        //显示正确提示
+                        this.$set(this.successTips, tip_uuid, {
                             uuid: tip_uuid,
-                            combo: this.combo,
+                            score: this.scoreRate,
+                            x: tx,
+                            y: ty,
                         });
+
+                        this.score +=  this.scoreRate;
+                    }else{
+                        this.combo = 0;
                     }
 
-                    //显示正确提示
-                    this.$set(this.successTips, tip_uuid, {
-                        uuid: tip_uuid,
-                        score: this.scoreRate,
-                        x: tx,
-                        y: ty,
-                    });
-
-                    this.score +=  this.scoreRate;
-                }else{
-                    this.combo = 0;
+                    //移动过的直接删除
+                    this.$delete(this.fallList, uuid);
+                }catch (e){
+                    console.warn(e);
                 }
-
-                //移动过的直接删除
-               this.$delete(this.fallList, uuid);
             },
 
             run() {
-                this.time--;
+
+                switch (this.time--){
+                    //剩余20秒后加速一次
+                    case 20:
+                        this.speedLevel++;
+                        clearInterval(this.gameTimer);
+                        this.gameTimer = setInterval(this.run, 600);
+                        break;
+                    case 10:
+                        this.speedLevel++;
+                        clearInterval(this.gameTimer);
+                        this.gameTimer = setInterval(this.run, 500);
+                        break;
+                }
+
+
                 if(!this.time){
-                    this.setSession("score", this.score);
-                    this.$router.push("/score");
+                    //游戏结束
+                    let userInfo = this.getStorage("userInfo");
+                    this.setStorage("userInfo", Object.assign(userInfo, {
+                        best_score: this.score
+                    }));
+
+                    this.$router.replace("/score");
                 }
 
                 let uuid = new Date().getTime();
                 let type = Math.floor(Math.random() * 6);
                 this.$set(this.fallList, uuid, {
+                    speedLevel: this.speedLevel,
                     src: imageStore[type],
                     fall: false,
                     touch: false,
@@ -387,6 +560,10 @@
 
             removeSuccessTip(uuid){
                 this.$delete(this.successTips, uuid);
+            },
+
+            removeTargetSuccess(index){
+                this.fixImages[index].success = false;
             }
         },
 

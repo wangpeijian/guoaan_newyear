@@ -92,7 +92,7 @@
                 height: .8rem;
                 width: 100%;
                 border: none;
-                margin: .3rem 0 0 0;
+                margin: .1rem 0 0 0;
 
                 &.again{
                     background: url("../../static/score/score_again.png") center no-repeat;
@@ -150,45 +150,23 @@
             <h1 class="current-score">{{currentScore}}</h1>
             <p class="best-score">历史最佳成绩：{{bestScore}}</p>
 
-            <div class="list-item">
-                <img class="user-header" src="https://tvax4.sinaimg.cn/crop.0.0.1242.1242.180/66134906ly8fhsne431fuj20yi0yijte.jpg">
+            <div class="list-item" v-for="(item, index) in scoreList" :key="index">
+                <img class="user-header" :src="item.head">
                 <p class="ranking">
                     <span class="label">NO</span>
-                    <span>1</span>
+                    <span>{{index + 1}}</span>
                 </p>
                 <p class="user-info">
-                    <span class="name">asdasd</span>
-                    <span class="score">15616</span>
+                    <span class="name">{{item.name}}</span>
+                    <span class="score">{{item.score}}</span>
                 </p>
             </div>
 
-            <div class="list-item">
-                <img class="user-header" src="https://tvax4.sinaimg.cn/crop.0.0.1242.1242.180/66134906ly8fhsne431fuj20yi0yijte.jpg">
-                <p class="ranking">
-                    <span class="label">NO</span>
-                    <span>1</span>
-                </p>
-                <p class="user-info">
-                    <span class="name">asdasd</span>
-                    <span class="score">15616</span>
-                </p>
-            </div>
-
-            <div class="list-item">
-                <img class="user-header" src="https://tvax4.sinaimg.cn/crop.0.0.1242.1242.180/66134906ly8fhsne431fuj20yi0yijte.jpg">
-                <p class="ranking">
-                    <span class="label">NO</span>
-                    <span>1</span>
-                </p>
-                <p class="user-info">
-                    <span class="name">asdasd</span>
-                    <span class="score">15616</span>
-                </p>
-            </div>
         </div>
 
         <div class="button-group">
             <button class="button again" @click="again"></button>
+            <p class="tips">剩余活动次数:{{leftTimes}}</p>
             <button class="button share" @click="share"></button>
             <p class="tips">分享活动可获得再玩一次机会</p>
             <img class="qrcode" :src="qrcode">
@@ -213,22 +191,124 @@
 
                 currentScore: 0,
                 bestScore: 0,
+                leftTimes: 0,
 
                 scoreList: [],
             }
         },
 
         created() {
-            console.log("12312213")
+            let userInfo = this.getStorage("userInfo");
+            this.post("saveScore", userInfo).then(res => {
+                if(res.Code === 0){
+                    let {Score, BestScore, LeftTimes, Rank} = res.Data;
+
+                    this.currentScore = Score;
+                    this.bestScore = BestScore;
+                    this.leftTimes = LeftTimes;
+                    this.scoreList = Rank.map(item => {
+
+                        return {
+                            name: item.Wx_name || item.Yun_name,
+                            score: item.Best_score,
+                            head: item.Wx_head || "https://img.guoanfamily.com/www/default_head.png"
+                        }
+
+                    });
+
+                }else{
+                    alert(res.Msg)
+                }
+            })
         },
 
         mounted() {
-
+            let ua = navigator.userAgent.toLowerCase()
+            if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                this.wxConfig();
+            }
         },
 
         methods: {
-            again(){
+            wxConfig() {
+                const URL = window.location.href; //.split('#')[0]
 
+                this.post("jsapi/getJsapiSignature?local_url=" + URL,//encodeURIComponent(URL),
+                    {}, {
+                        interfaceType: "weichat"
+                    }).then(response => {
+                    wx.config({
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId: response.appid, // 必填，公众号的唯一标识
+                        timestamp: parseInt(response.timestamp), // 必填，生成签名的时间戳
+                        nonceStr: response.noncestr, // 必填，生成签名的随机串
+                        signature: response.signature, // 必填，签名，见附录1
+                        jsApiList: [
+                            'onMenuShareTimeline',
+                            'onMenuShareAppMessage',
+                            'onMenuShareQQ',
+                            'onMenuShareWeibo',
+                            'onMenuShareQZone']// 必填，需要使用的JS接口列表
+                    });
+                    wx.ready(() => {
+                        // 分享给朋友
+                        wx.onMenuShareAppMessage({
+                            title: "迎元旦 贴窗花", //标题
+                            desc: "新年伊始是元旦，万象更新又一年，国安科技控股真诚答谢活动，欢迎您的参与。", //描述
+                            link: URL,
+                            imgUrl: "https://img.guoanfamily.com/www/newyearShare.jpg", //图片
+                            trigger: (res) => {
+                            },
+                            success: (res) => {
+                                this.addGameTimes("ShareAppMessage")
+                            },
+                            cancel: (res) => {
+                            },
+                            fail: (res) => {
+                            }
+                        });
+                        // 分享到朋友圈
+                        wx.onMenuShareTimeline({
+                            title: "迎元旦 贴窗花", //标题
+                            desc: "新年伊始是元旦，万象更新又一年，国安科技控股真诚答谢活动，欢迎您的参与。", //描述
+                            link: URL,
+                            imgUrl: "https://img.guoanfamily.com/www/newyearShare.jpg", //图片
+                            trigger: (res) => {
+                            },
+                            success: (res) => {
+                                this.addGameTimes("ShareTimeline")
+                            },
+                            cancel: (res) => {
+                            },
+                            fail: (res) => {
+                            }
+                        });
+
+                        wx.error(function (res) {
+                            console.error(res)
+                        });
+                    })
+                });
+            },
+
+            addGameTimes(type){
+                let userInfo = Object.assign(this.getStorage("userInfo"), {
+                    share_type: type,
+                });
+
+                if(!userInfo.wx_id){
+                    return;
+                }
+
+                this.post("addGameTimes", userInfo).then(res => {
+                    if(res.Code === 0){
+                        alert("分享成功")
+                    }
+                });
+            },
+
+            again(){
+                this.$router.go(-1);
             },
 
             share(){

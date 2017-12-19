@@ -13,8 +13,8 @@ Vue.config.productionTip = false;
 /*---------------------------------------------------*/
 //判断是否是生产环境，生产环境下，将console方法重写
 if (process.env.NODE_ENV === 'production') {
-    window.console.log = () => {};
-    window.console.info = () => {};
+    //window.console.log = () => {};
+    //window.console.info = () => {};
     //window.console.error = () => {};
     Vue.config.silent = true;
 }
