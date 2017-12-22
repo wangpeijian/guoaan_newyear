@@ -1,5 +1,5 @@
 <style scoped lang="scss">
-    $gold: #DAA520 ;
+    $gold: #d8da62;
 
     .game-body {
         transform: translate3d(0, 0, 0);
@@ -60,6 +60,7 @@
 
             .combo-tip{
                 position: absolute;
+                font-weight: bold;
                 bottom: 0rem;
                 z-index: 1;
                 font-size: .8rem;
@@ -71,11 +72,11 @@
                 @keyframes comboFade
                 {
                     from {
-                        bottom: 0rem;
+                        bottom: 1rem;
                         color: $gold;
                     }
                     to {
-                        bottom: 1rem;
+                        bottom: 2rem;
                         color: rgba(245, 152, 34, 0);
                     }
                 }
@@ -344,26 +345,27 @@
 
         methods: {
             wxConfig() {
-                const URL = window.location.href; //.split('#')[0]
-
-                this.post("jsapi/getJsapiSignature?local_url=" + URL,//encodeURIComponent(location.href.split('#')[0]), //URL, // encodeURIComponent(URL),
-                    {}, {
-                        interfaceType: "weichat"
-                    }).then(response => {
-                    wx.config({
-                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                        appId: response.appid, // 必填，公众号的唯一标识
-                        timestamp: parseInt(response.timestamp), // 必填，生成签名的时间戳
-                        nonceStr: response.noncestr, // 必填，生成签名的随机串
-                        signature: response.signature, // 必填，签名，见附录1
-                        jsApiList: [
-                            'onMenuShareTimeline',
-                            'onMenuShareAppMessage',
-                            'onMenuShareQQ',
-                            'onMenuShareWeibo',
-                            'onMenuShareQZone']// 必填，需要使用的JS接口列表
-                    });
-                    wx.ready(() => {
+                return;
+                // const URL = window.location.href; //.split('#')[0]
+                //
+                // this.post("jsapi/getJsapiSignature?local_url=" + URL,//encodeURIComponent(location.href.split('#')[0]), //URL, // encodeURIComponent(URL),
+                //     {}, {
+                //         interfaceType: "weichat"
+                //     }).then(response => {
+                //     wx.config({
+                //         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                //         appId: response.appid, // 必填，公众号的唯一标识
+                //         timestamp: parseInt(response.timestamp), // 必填，生成签名的时间戳
+                //         nonceStr: response.noncestr, // 必填，生成签名的随机串
+                //         signature: response.signature, // 必填，签名，见附录1
+                //         jsApiList: [
+                //             'onMenuShareTimeline',
+                //             'onMenuShareAppMessage',
+                //             'onMenuShareQQ',
+                //             'onMenuShareWeibo',
+                //             'onMenuShareQZone']// 必填，需要使用的JS接口列表
+                //     });
+                //     wx.ready(() => {
                         // 分享给朋友
                         wx.onMenuShareAppMessage({
                             title: "迎元旦 贴窗花", //标题
@@ -400,8 +402,8 @@
                         wx.error(function (res) {
                             console.error(res)
                         });
-                    })
-                });
+                //     })
+                // });
             },
 
             addGameTimes(type){
@@ -479,6 +481,11 @@
                                 uuid: tip_uuid,
                                 combo: this.combo,
                             });
+                        }
+
+                        //combo10个以上加分变多
+                        if(this.combo > 10){
+                            this.score += (this.combo - 10) *  this.scoreRate;
                         }
 
                         //显示正确提示

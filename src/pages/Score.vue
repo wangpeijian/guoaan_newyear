@@ -138,6 +138,17 @@
                 transform: scale(.8);
             }
         }
+
+        .share-mask{
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.49) url("../../static/score/shareImg.png");
+            background-size: 3rem 3rem;
+            background-position: 80% 10%;
+            background-repeat: no-repeat;
+        }
     }
 </style>
 
@@ -167,12 +178,14 @@
         <div class="button-group">
             <button class="button again" @click="again"></button>
             <p class="tips">剩余活动次数:{{leftTimes}}</p>
-            <button class="button share" @click="share"></button>
+            <button class="button share" @click="shareMask = true"></button>
             <p class="tips">分享活动可获得再玩一次机会</p>
             <img class="qrcode" :src="qrcode">
             <p class="share-one">长按关注国安科技控股</p>
             <p class="share-two">我们更关心你</p>
         </div>
+
+        <div class="share-mask" v-if="shareMask" @click="shareMask = false"></div>
 
     </div>
 </template>
@@ -194,6 +207,8 @@
                 leftTimes: 0,
 
                 scoreList: [],
+
+                shareMask: false,
             }
         },
 
@@ -310,10 +325,6 @@
             again(){
                 this.$router.go(-1);
             },
-
-            share(){
-
-            }
         },
 
         components: {}

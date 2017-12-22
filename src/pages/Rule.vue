@@ -34,26 +34,27 @@
 
         methods: {
             wxConfig() {
-                const URL = window.location.href; //.split('#')[0]
-
-                this.post("jsapi/getJsapiSignature?local_url=" + URL,//encodeURIComponent(location.href.split('#')[0]), //URL, //encodeURIComponent()
-                    {}, {
-                        interfaceType: "weichat"
-                    }).then(response => {
-                    wx.config({
-                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                        appId: response.appid, // 必填，公众号的唯一标识
-                        timestamp: parseInt(response.timestamp), // 必填，生成签名的时间戳
-                        nonceStr: response.noncestr, // 必填，生成签名的随机串
-                        signature: response.signature, // 必填，签名，见附录1
-                        jsApiList: [
-                            'onMenuShareTimeline',
-                            'onMenuShareAppMessage',
-                            'onMenuShareQQ',
-                            'onMenuShareWeibo',
-                            'onMenuShareQZone']// 必填，需要使用的JS接口列表
-                    });
-                    wx.ready(() => {
+                return;
+                // const URL = window.location.href; //.split('#')[0]
+                //
+                // this.post("jsapi/getJsapiSignature?local_url=" + URL,//encodeURIComponent(location.href.split('#')[0]), //URL, //encodeURIComponent()
+                //     {}, {
+                //         interfaceType: "weichat"
+                //     }).then(response => {
+                //     wx.config({
+                //         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                //         appId: response.appid, // 必填，公众号的唯一标识
+                //         timestamp: parseInt(response.timestamp), // 必填，生成签名的时间戳
+                //         nonceStr: response.noncestr, // 必填，生成签名的随机串
+                //         signature: response.signature, // 必填，签名，见附录1
+                //         jsApiList: [
+                //             'onMenuShareTimeline',
+                //             'onMenuShareAppMessage',
+                //             'onMenuShareQQ',
+                //             'onMenuShareWeibo',
+                //             'onMenuShareQZone']// 必填，需要使用的JS接口列表
+                //     });
+                //     wx.ready(() => {
                         // 分享给朋友
                         wx.onMenuShareAppMessage({
                             title: "迎元旦 贴窗花", //标题
@@ -90,8 +91,8 @@
                         wx.error(function (res) {
                             console.error(res)
                         });
-                    })
-                });
+                //     })
+                // });
             },
 
             addGameTimes(type){
