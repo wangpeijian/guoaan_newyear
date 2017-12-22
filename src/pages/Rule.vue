@@ -10,8 +10,11 @@
 </template>
 
 <script>
-    import rule_worker from "../../static/rule/rule_worker.jpg";
-    import rule_tourist from "../../static/rule/rule_tourist.jpg";
+    // import rule_worker from "https://img.guoanfamily.com/newyear/rule/rule_worker.jpg";
+    // import rule_tourist from "https://img.guoanfamily.com/newyear/rule/rule_tourist.jpg";
+
+    const rule_worker = "https://img.guoanfamily.com/newyear/rule/rule_worker.jpg";
+    const rule_tourist = "https://img.guoanfamily.com/newyear/rule/rule_tourist.jpg";
 
     export default {
         data() {

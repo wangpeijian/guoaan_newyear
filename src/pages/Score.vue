@@ -191,9 +191,13 @@
 </template>
 
 <script>
-    import scoreBackground from "../../static/score/score_background.jpg";
-    import scoreBox from "../../static/score/score_box.png";
-    import qrcode from "../../static/score/qrcode.jpg";
+    // import scoreBackground from "https://img.guoanfamily.com/newyear/score/score_background.jpg";
+    // import scoreBox from "https://img.guoanfamily.com/newyear/score/score_box.png";
+    // import qrcode from "https://img.guoanfamily.com/newyear/score/qrcode.jpg";
+
+    const scoreBackground = "https://img.guoanfamily.com/newyear/score/score_background.jpg";
+    const scoreBox = "https://img.guoanfamily.com/newyear/score/score_box.png";
+    const qrcode = "https://img.guoanfamily.com/newyear/score/qrcode.jpg";
 
     export default {
         data() {

@@ -215,15 +215,25 @@
 </template>
 
 <script>
-    import gameBackground from "../../static/game/game_background.jpg";
-    import gameWindow from "../../static/game/game_window.jpg";
+    // import gameBackground from "https://img.guoanfamily.com/newyear/game/game_background.jpg";
+    // import gameWindow from "https://img.guoanfamily.com/newyear/game/game_window.jpg";
+    //
+    // import image001 from "https://img.guoanfamily.com/newyear/game/image001.png";
+    // import image002 from "https://img.guoanfamily.com/newyear/game/image002.png";
+    // import image003 from "https://img.guoanfamily.com/newyear/game/image003.png";
+    // import image004 from "https://img.guoanfamily.com/newyear/game/image004.png";
+    // import image005 from "https://img.guoanfamily.com/newyear/game/image005.png";
+    // import image006 from "https://img.guoanfamily.com/newyear/game/image006.png";
 
-    import image001 from "../../static/game/image001.png";
-    import image002 from "../../static/game/image002.png";
-    import image003 from "../../static/game/image003.png";
-    import image004 from "../../static/game/image004.png";
-    import image005 from "../../static/game/image005.png";
-    import image006 from "../../static/game/image006.png";
+    const gameBackground = "https://img.guoanfamily.com/newyear/game/game_background.jpg";
+    const gameWindow = "https://img.guoanfamily.com/newyear/game/game_window.jpg";
+
+    const image001 = "https://img.guoanfamily.com/newyear/game/image001.png";
+    const image002 = "https://img.guoanfamily.com/newyear/game/image002.png";
+    const image003 = "https://img.guoanfamily.com/newyear/game/image003.png";
+    const image004 = "https://img.guoanfamily.com/newyear/game/image004.png";
+    const image005 = "https://img.guoanfamily.com/newyear/game/image005.png";
+    const image006 = "https://img.guoanfamily.com/newyear/game/image006.png";
 
     const imageStore = [image001, image002, image003, image004, image005, image006];
 

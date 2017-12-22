@@ -151,9 +151,13 @@
 </template>
 
 <script>
-    import body from "../../static/form/body.jpg";
-    import header from "../../static/form/header.jpg";
-    import start from "../../static/form/start.png";
+    // import body from "https://img.guoanfamily.com/newyear/form/body.jpg";
+    // import header from "https://img.guoanfamily.com/newyear/form/header.jpg";
+    // import start from "https://img.guoanfamily.com/newyear/form/start.png";
+
+    const body = "https://img.guoanfamily.com/newyear/form/body.jpg";
+    const header = "https://img.guoanfamily.com/newyear/form/header.jpg";
+    const start = "https://img.guoanfamily.com/newyear/form/start.png";
 
     export default {
         data() {

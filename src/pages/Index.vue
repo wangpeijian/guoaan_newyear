@@ -1,50 +1,102 @@
 <style scoped lang="scss">
-    img {
+    .cover {
         height: 100%;
         width: 100%;
+    }
+
+    .pre-load{
+        display: none;
+
+        img {
+            height: 0;
+            width: 0;
+        }
     }
 </style>
 
 <template>
-    <img :src="cover">
+    <div style="height: 100%">
+        <img class="cover" :src="cover">
+
+        <div class="pre-load">
+            <img v-for="item in preloadList" :key="item" :src="item">
+        </div>
+    </div>
 </template>
 
 <script>
-    import index from "../../static/index/index.jpg";
+    // import index from "https://img.guoanfamily.com/newyear/index/index.jpg";
+    const index = "https://img.guoanfamily.com/newyear/index/index.jpg";
 
     //其他页面的资源
-    import body from "../../static/form/body.jpg";
-    import header from "../../static/form/header.jpg";
-    import start from "../../static/form/start.png";
+    // import body from "https://img.guoanfamily.com/newyear/form/body.jpg";
+    // import header from "https://img.guoanfamily.com/newyear/form/header.jpg";
+    // import start from "https://img.guoanfamily.com/newyear/form/start.png";
+    //
+    // import gameBackground from "https://img.guoanfamily.com/newyear/game/game_background.jpg";
+    // import gameWindow from "https://img.guoanfamily.com/newyear/game/game_window.jpg";
+    //
+    // import image001 from "https://img.guoanfamily.com/newyear/game/image001.png";
+    // import image002 from "https://img.guoanfamily.com/newyear/game/image002.png";
+    // import image003 from "https://img.guoanfamily.com/newyear/game/image003.png";
+    // import image004 from "https://img.guoanfamily.com/newyear/game/image004.png";
+    // import image005 from "https://img.guoanfamily.com/newyear/game/image005.png";
+    // import image006 from "https://img.guoanfamily.com/newyear/game/image006.png";
+    //
+    // import rule_worker from "https://img.guoanfamily.com/newyear/rule/rule_worker.jpg";
+    // import rule_tourist from "https://img.guoanfamily.com/newyear/rule/rule_tourist.jpg";
+    //
+    // import scoreBackground from "https://img.guoanfamily.com/newyear/score/score_background.jpg";
+    // import scoreBox from "https://img.guoanfamily.com/newyear/score/score_box.png";
+    // import qrcode from "https://img.guoanfamily.com/newyear/score/qrcode.jpg";
 
-    import gameBackground from "../../static/game/game_background.jpg";
-    import gameWindow from "../../static/game/game_window.jpg";
+    const body = "https://img.guoanfamily.com/newyear/form/body.jpg";
+    const header = "https://img.guoanfamily.com/newyear/form/header.jpg";
+    const start = "https://img.guoanfamily.com/newyear/form/start.png";
+    const gameBackground = "https://img.guoanfamily.com/newyear/game/game_background.jpg";
+    const gameWindow = "https://img.guoanfamily.com/newyear/game/game_window.jpg";
+    const image001 = "https://img.guoanfamily.com/newyear/game/image001.png";
+    const image002 = "https://img.guoanfamily.com/newyear/game/image002.png";
+    const image003 = "https://img.guoanfamily.com/newyear/game/image003.png";
+    const image004 = "https://img.guoanfamily.com/newyear/game/image004.png";
+    const image005 = "https://img.guoanfamily.com/newyear/game/image005.png";
+    const image006 = "https://img.guoanfamily.com/newyear/game/image006.png";
+    const rule_worker = "https://img.guoanfamily.com/newyear/rule/rule_worker.jpg";
+    const rule_tourist = "https://img.guoanfamily.com/newyear/rule/rule_tourist.jpg";
+    const scoreBackground = "https://img.guoanfamily.com/newyear/score/score_background.jpg";
+    const scoreBox = "https://img.guoanfamily.com/newyear/score/score_box.png";
+    const qrcode = "https://img.guoanfamily.com/newyear/score/qrcode.jpg";
 
-    import image001 from "../../static/game/image001.png";
-    import image002 from "../../static/game/image002.png";
-    import image003 from "../../static/game/image003.png";
-    import image004 from "../../static/game/image004.png";
-    import image005 from "../../static/game/image005.png";
-    import image006 from "../../static/game/image006.png";
-
-    import rule_worker from "../../static/rule/rule_worker.jpg";
-    import rule_tourist from "../../static/rule/rule_tourist.jpg";
-
-    import scoreBackground from "../../static/score/score_background.jpg";
-    import scoreBox from "../../static/score/score_box.png";
-    import qrcode from "../../static/score/qrcode.jpg";
+    const preloadList = [
+        body,
+        header,
+        start,
+        gameBackground,
+        gameWindow,
+        image001,
+        image002,
+        image003,
+        image004,
+        image005,
+        image006,
+        rule_worker,
+        rule_tourist,
+        scoreBackground,
+        scoreBox,
+        qrcode];
 
     export default {
         data() {
             return {
                 cover: index,
+                preloadList: preloadList,
             }
         },
 
         created() {
             setTimeout(() => {
                 this.$router.push("/form")
-            }, 2000)
+            }, 2500)
         },
 
         mounted() {
