@@ -144,7 +144,7 @@
             top: 0;
             bottom: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.49) url("../../static/score/shareImg.png");
+            background: rgba(0, 0, 0, 0.49) url("../../static/score/share_img.png");
             background-size: 3rem 3rem;
             background-position: 80% 10%;
             background-repeat: no-repeat;
@@ -246,6 +246,7 @@
 
         methods: {
             wxConfig() {
+                return;
                 const URL = window.location.href; //.split('#')[0]
 
                 this.post("jsapi/getJsapiSignature?local_url=" + encodeURIComponent(location.href.split('#')[0]), //URL, // encodeURIComponent(URL),
