@@ -33,9 +33,6 @@ Vue.use(new GaPlugin());
 //应用全局样式
 import './style/public.scss';
 
-//安装vux全局插件
-import VuxRegister from './script/VuxRegister'
-Vue.use(new VuxRegister());
 /*---------------------------------------------------*/
 
 /* eslint-disable no-new */
