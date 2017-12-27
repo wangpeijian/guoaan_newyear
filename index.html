@@ -31,9 +31,29 @@
 
 <body>
     <div id="app-box"></div>
+
+    <div class="music" style="display: none;">
+        <audio id="bgm" src="https://img.guoanfamily.com/newyear/music/bgm.mp3" autoplay loop></audio>
+
+        <audio id="success" src="https://img.guoanfamily.com/newyear/music/success.mp3" preload></audio>
+    </div>
 </body>
 
 </html>
 <script>
      /*var vConsole = new VConsole();*/
+
+     var BGM = document.getElementById("bgm");
+     var SUCCESS = document.getElementById("success");
+
+     function playBGM() {
+         BGM.play();
+     }
+
+     function playSuccess() {
+         SUCCESS.currentTime = 0;
+         SUCCESS.play();
+     }
+
+
 </script>

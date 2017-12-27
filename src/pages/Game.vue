@@ -299,7 +299,7 @@
                 //当前成功后 的得分系数
                 scoreRate: 10,
                 //倒计时时间
-                time: 30,
+                time: 60,
 
                 //成功选中后的提示
                 successTips: {
@@ -325,7 +325,7 @@
             let userInfo = this.getStorage("userInfo");
             this.post("checkGameTimes", userInfo).then(res => {
                 if (res.Code === 0) {
-                    alert("游戏开始");
+                    //alert("游戏开始");
                     this.gameTimer = setInterval(this.run, 1000);
                 } else {
                     alert(res.Msg)
@@ -479,6 +479,8 @@
 
                     //位置正确
                     if( _x >= tx && _x<= bx && _y >= ty && _y <= by ){
+                        //播放成功提示
+                        playSuccess();
                         this.hit++;
                         this.combo++;
                         let tip_uuid = new Date().getTime();
@@ -522,12 +524,12 @@
 
                 switch (this.time--){
                     //剩余20秒后加速一次
-                    case 20:
+                    case 40:
                         this.speedLevel++;
                         clearInterval(this.gameTimer);
                         this.gameTimer = setInterval(this.run, 600);
                         break;
-                    case 10:
+                    case 20:
                         this.speedLevel++;
                         clearInterval(this.gameTimer);
                         this.gameTimer = setInterval(this.run, 500);

@@ -16,6 +16,7 @@
         },
 
         created() {
+            //return;
             //默认为云之家来源
             let source = -1;
 

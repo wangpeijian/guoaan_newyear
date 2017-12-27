@@ -120,11 +120,11 @@
             }
 
             .share-one{
-                font-size: .1rem;
+                font-size: .2rem;
                 color: #fff;
                 display: block;
                 text-align: center;
-                transform: scale(.8);
+                //transform: scale(.8);
             }
 
             .share-two{
@@ -146,7 +146,7 @@
             width: 100%;
             background: rgba(0, 0, 0, 0.49) url("../../static/score/share_img.png");
             background-size: 3rem 3rem;
-            background-position: 80% 10%;
+            background-position: 110% 10%;
             background-repeat: no-repeat;
         }
     }

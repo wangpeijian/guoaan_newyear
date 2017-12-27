@@ -193,14 +193,14 @@
                 this.type = userInfo.user_type;
                 if(userInfo.user_type === 0){
                     this.tourist = {
-                        name: userInfo.wx_name,
-                        phone: userInfo.wx_phone,
+                        name: userInfo.wx_name.replace(" ", ""),
+                        phone: userInfo.wx_phone.replace(" ", ""),
                         address: userInfo.wx_address,
                     }
                 }else{
                     this.worker = {
-                        name: userInfo.yun_name,
-                        phone: userInfo.yun_phone,
+                        name: userInfo.yun_name.replace(" ", ""),
+                        phone: userInfo.yun_phone.replace(" ", ""),
                         company: userInfo.yun_company,
                         department: userInfo.yun_department,
                     }

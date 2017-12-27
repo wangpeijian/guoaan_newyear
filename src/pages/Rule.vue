@@ -115,6 +115,7 @@
             },
 
             begin() {
+                playSuccess();
                 this.$router.push("/game");
             }
         },

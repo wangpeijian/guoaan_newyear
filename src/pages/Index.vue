@@ -16,7 +16,7 @@
 
 <template>
     <div style="height: 100%">
-        <img class="cover" :src="cover">
+        <img class="cover" :src="cover" @click="begin">
 
         <div class="pre-load">
             <img v-for="item in preloadList" :key="item" :src="item">
@@ -94,9 +94,9 @@
         },
 
         created() {
-            setTimeout(() => {
-                this.$router.push("/form")
-            }, 2500)
+            // setTimeout(() => {
+            //     this.$router.push("/form")
+            // }, 2500)
         },
 
         mounted() {
@@ -105,10 +105,14 @@
             if (ua.match(/MicroMessenger/i) == "micromessenger") {
                 this.wxConfig();
             }
-
         },
 
         methods: {
+            begin(){
+                playBGM();
+                this.$router.push("/form")
+            },
+
             wxConfig() {
                 const URL = window.location.href; //.split('#')[0]
 
@@ -130,6 +134,8 @@
                             'onMenuShareQZone']// 必填，需要使用的JS接口列表
                     });
                     wx.ready(() => {
+                        playBGM();
+
                         // 分享给朋友
                         wx.onMenuShareAppMessage({
                             title: "迎元旦 贴窗花", //标题
