@@ -129,7 +129,7 @@
                 top: -3rem;
                 margin: 0 0 0 50%;
                 left: -1.5rem;
-                transition: 2s;
+                transition: 2.5s;
                 transition-timing-function: linear;
 
                 &.fall {
@@ -141,7 +141,19 @@
                 top: -3rem;
                 margin: 0 0 0 50%;
                 left: -1.5rem;
-                transition: .5s;
+                transition: 2s;
+                transition-timing-function: linear;
+
+                &.fall {
+                    transform: translateY(20rem);
+                }
+            }
+
+            &.speed-3 {
+                top: -3rem;
+                margin: 0 0 0 50%;
+                left: -1.5rem;
+                transition: 1.5s;
                 transition-timing-function: linear;
 
                 &.fall {
@@ -198,7 +210,13 @@
         <img class="base-image" v-for="(item, index) in getFallList"
              :key="item.uuid"
              :src="item.src"
-             :class="{fall: item.fall, 'speed-0': !item.touch, 'speed-1': !item.touch && this.speedLevel === 1, 'speed-2':!item.touch &&  this.speedLevel === 2}"
+             :class="{
+                 fall: item.fall,
+                 'speed-0': !item.touch &&  speedLevel === 0,
+                 'speed-1': !item.touch &&  speedLevel === 1,
+                 'speed-2': !item.touch &&  speedLevel === 2,
+                 'speed-3': !item.touch &&  speedLevel === 3
+             }"
              :style="{transform: `translate(${item._x}px, ${item._y}px)`}"
 
              :ref="item.uuid"
@@ -524,15 +542,20 @@
 
                 switch (this.time--){
                     //剩余20秒后加速一次
-                    case 40:
+                    case 50:
                         this.speedLevel++;
                         clearInterval(this.gameTimer);
                         this.gameTimer = setInterval(this.run, 600);
                         break;
-                    case 20:
+                    case 40:
                         this.speedLevel++;
                         clearInterval(this.gameTimer);
                         this.gameTimer = setInterval(this.run, 500);
+                        break;
+                    case 20:
+                        this.speedLevel++;
+                        clearInterval(this.gameTimer);
+                        this.gameTimer = setInterval(this.run, 450);
                         break;
                 }
 
